@@ -1,25 +1,19 @@
-// Content management system
 let siteContent = null;
 
-// Load content from JSON file
 async function loadContent() {
     try {
         const response = await fetch('data/content.json');
         siteContent = await response.json();
-        // Make siteContent available globally for other scripts
         window.siteContent = siteContent;
         populateContent();
     } catch (error) {
         console.error('Error loading content:', error);
-        // Fallback to hardcoded content if JSON fails to load
         siteContent = getFallbackContent();
-        // Make siteContent available globally for other scripts
         window.siteContent = siteContent;
         populateContent();
     }
 }
 
-// Fallback content in case JSON file fails to load
 function getFallbackContent() {
     return {
         site: {
@@ -218,40 +212,29 @@ function getFallbackContent() {
     };
 }
 
-// Populate content throughout the page
 function populateContent() {
     if (!siteContent) return;
     
-    // Update page title
     document.title = siteContent.site.title;
     
-    // Update navigation
     updateNavigation();
     
-    // Update hero section
     updateHeroSection();
     
-    // Update projects section
     updateProjectsSection();
     
-    // Update skills section
     updateSkillsSection();
     
-    // Update about section
     updateAboutSection();
     
-    // Update contact section
     updateContactSection();
     
-    // Update footer
     updateFooter();
 }
 
-// Update navigation content
 function updateNavigation() {
     const nav = siteContent.navigation;
     
-    // Update navigation links
     document.querySelectorAll('a[href="#home"]').forEach(link => {
         link.textContent = nav.home;
     });
@@ -268,7 +251,6 @@ function updateNavigation() {
         link.textContent = nav.contact;
     });
     
-    // Update donate button
     document.querySelectorAll('button.bg-coral').forEach(button => {
         if (button.textContent.trim() === 'Hire Me') {
             button.textContent = nav.donate;
@@ -276,7 +258,6 @@ function updateNavigation() {
         }
     });
     
-    // Update logo with avatar
     const logoContainer = document.querySelector('.w-10.h-10.bg-teal-custom.rounded-lg');
     if (logoContainer && siteContent.hero && siteContent.hero.avatar) {
         logoContainer.innerHTML = `
@@ -286,23 +267,19 @@ function updateNavigation() {
     }
 }
 
-// Update hero section content
 function updateHeroSection() {
     const hero = siteContent.hero;
     
-    // Update hero title
     const heroTitle = document.querySelector('#home h1');
     if (heroTitle) {
         heroTitle.innerHTML = `${hero.greeting} <span class="text-teal-custom">${hero.name}</span>.<br>${hero.title}`;
     }
     
-    // Update hero description
     const heroDesc = document.querySelector('#heroDescription');
     if (heroDesc) {
         heroDesc.textContent = hero.description;
     }
     
-    // Update avatar
     const avatarContainer = document.querySelector('#home .relative.z-10');
     if (avatarContainer && hero.avatar) {
         avatarContainer.innerHTML = `
@@ -312,7 +289,6 @@ function updateHeroSection() {
         `;
     }
     
-    // Update buttons
     const viewWorkBtn = document.querySelector('#home button.bg-sunny');
     if (viewWorkBtn) {
         viewWorkBtn.innerHTML = `${hero.buttons.viewWork}<svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>`;
@@ -324,7 +300,6 @@ function updateHeroSection() {
     }
 }
 
-// Update projects section content
 function updateProjectsSection() {
     const projects = siteContent.projects;
     

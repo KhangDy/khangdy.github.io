@@ -31,7 +31,6 @@
     <script src="js/docsViewer.js" defer></script>
 </head>
 <body class="font-inter bg-off-white dark:bg-gray-900 text-charcoal dark:text-gray-100 smooth-scroll">
-    <!-- Header/Navigation -->
     <header class="sticky top-0 bg-off-white/95 dark:bg-gray-900/95 backdrop-blur-sm z-50 border-b border-gray-100 dark:border-gray-800">
         <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div class="flex items-center">
@@ -56,7 +55,6 @@
                 </button>
             </div>
             
-            <!-- Mobile menu button -->
             <button class="md:hidden p-2" onclick="toggleMobileMenu()">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -64,7 +62,6 @@
             </button>
         </nav>
         
-        <!-- Mobile menu -->
         <div id="mobileMenu" class="hidden md:hidden bg-off-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800">
             <div class="px-6 py-4 space-y-4">
                 <a href="#home" class="block hover:text-teal-custom transition-colors">Home</a>
@@ -85,7 +82,6 @@
         </div>
     </header>
 
-    <!-- Audio Player -->
     <div id="audioPlayer" class="fixed bottom-4 right-4 z-50 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-3 transition-all duration-300 hover:shadow-xl">
         <div class="flex items-center space-x-3">
             <button id="audioMute" class="p-1 rounded text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors" title="Mute/Unmute">
@@ -104,7 +100,6 @@
         </audio>
     </div>
 
-    <!-- Hero Section -->
     <section id="home" class="min-h-screen flex items-center py-20">
         <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
             <div class="space-y-6">
@@ -113,7 +108,6 @@
                     A Java Developer.
                 </h1>
                 <p class="text-xl text-gray-600 dark:text-gray-300 leading-relaxed" id="heroDescription">
-                    <!-- Content will be populated dynamically -->
                 </p>
                 <div class="flex flex-wrap gap-4">
                     <button onclick="document.getElementById('projects').scrollIntoView({behavior: 'smooth'})" 
@@ -144,7 +138,6 @@
         </div>
     </section>
 
-    <!-- Projects Section -->
     <section id="projects" class="py-20 bg-white dark:bg-gray-800">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center mb-16">
@@ -158,7 +151,6 @@
             </div>
             
             <div class="grid md:grid-cols-2 gap-8">
-                <!-- Project 1 -->
                 <div class="card-hover bg-off-white dark:bg-gray-700 rounded-2xl overflow-hidden cursor-pointer" onclick="openProjectModal('project1')">
                     <div class="h-48 bg-gradient-to-br from-teal-custom to-blue-400 flex items-center justify-center">
                         <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -177,7 +169,6 @@
                     </div>
                 </div>
                 
-                <!-- Project 2 -->
                 <div class="card-hover bg-off-white dark:bg-gray-700 rounded-2xl overflow-hidden cursor-pointer" onclick="openProjectModal('project2')">
                     <div class="h-48 bg-gradient-to-br from-coral to-pink-400 flex items-center justify-center">
                         <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -201,9 +192,7 @@
 
 
 
-    <!-- About Me Section -->
     <section id="about" class="py-20 bg-gradient-to-br from-gray-50 via-white to-teal-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden">
-        <!-- Background decorative elements -->
         <div class="absolute inset-0 opacity-5">
             <div class="absolute top-20 left-10 w-72 h-72 bg-teal-custom rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
             <div class="absolute top-40 right-10 w-72 h-72 bg-coral rounded-full mix-blend-multiply filter blur-xl animate-pulse" style="animation-delay: 2s;"></div>
@@ -211,7 +200,6 @@
         </div>
         
         <div class="max-w-7xl mx-auto px-6 relative z-10">
-            <!-- Section Header -->
             <div class="text-center mb-16">
                 <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-teal-custom to-coral rounded-full mb-8 shadow-lg">
                     <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -222,11 +210,8 @@
                 <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">Discover my journey, expertise, and passion for creating innovative software solutions.</p>
             </div>
 
-            <!-- Main Content Grid -->
             <div class="grid lg:grid-cols-5 gap-8 mb-16">
-                <!-- About Me & Experience -->
                 <div class="lg:col-span-3 space-y-8">
-                    <!-- About Me -->
                     <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/20">
                         <div class="flex items-center mb-6">
                             <div class="w-12 h-12 bg-gradient-to-r from-teal-custom to-blue-500 rounded-xl flex items-center justify-center mr-4">
@@ -237,11 +222,9 @@
                             <h3 class="text-2xl font-bold">About Me</h3>
                         </div>
                         <div class="text-gray-600 dark:text-gray-300 leading-relaxed text-lg" id="aboutMeContent">
-                            <!-- Content will be populated dynamically -->
                         </div>
                     </div>
 
-                    <!-- Education -->
                     <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/20">
                         <div class="flex items-center mb-6">
                             <div class="w-12 h-12 bg-gradient-to-r from-coral to-pink-500 rounded-xl flex items-center justify-center mr-4">
@@ -262,9 +245,7 @@
                     </div>
                 </div>
 
-                <!-- Skills & Info Sidebar -->
                 <div class="lg:col-span-2 space-y-6">
-                    <!-- Technical Skills -->
                     <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-white/20">
                         <div class="flex items-center mb-4">
                             <div class="w-10 h-10 bg-gradient-to-r from-teal-custom to-blue-500 rounded-xl flex items-center justify-center mr-3">
@@ -275,7 +256,6 @@
                             <h3 class="text-xl font-bold">Technical Skills</h3>
                         </div>
                         
-                        <!-- Client-Side -->
                         <div class="mb-4">
                             <div class="flex items-center mb-2">
                                 <div class="w-6 h-6 bg-gradient-to-r from-teal-custom to-blue-500 rounded-lg flex items-center justify-center mr-2">
@@ -295,7 +275,6 @@
                             </div>
                         </div>
                         
-                        <!-- Server-Side -->
                         <div class="mb-4">
                             <div class="flex items-center mb-2">
                                 <div class="w-6 h-6 bg-gradient-to-r from-coral to-pink-500 rounded-lg flex items-center justify-center mr-2">
@@ -315,7 +294,6 @@
                             </div>
                         </div>
                         
-                        <!-- Development & Operations -->
                         <div class="mb-4">
                             <div class="flex items-center mb-2">
                                 <div class="w-6 h-6 bg-gradient-to-r from-yellow-600 to-orange-500 rounded-lg flex items-center justify-center mr-2">
@@ -334,7 +312,6 @@
                             </div>
                         </div>
                         
-                        <!-- Soft Skills -->
                         <div>
                             <div class="flex items-center mb-2">
                                 <div class="w-6 h-6 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center mr-2">
@@ -353,7 +330,6 @@
                         </div>
                     </div>
 
-                    <!-- Language & Certificates -->
                     <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-white/20">
                         <div class="flex items-center mb-4">
                             <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-xl flex items-center justify-center mr-3">
@@ -364,7 +340,6 @@
                             <h3 class="text-xl font-bold">Language & Certificates</h3>
                         </div>
                         
-                        <!-- Language -->
                         <div class="mb-4">
                             <h4 class="font-semibold text-sm text-gray-800 dark:text-gray-200 mb-2">Language Skills</h4>
                         <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
@@ -378,7 +353,6 @@
                         </div>
                     </div>
 
-                    <!-- Certificates -->
                         <div>
                             <h4 class="font-semibold text-sm text-gray-800 dark:text-gray-200 mb-2">Certificates</h4>
                             <div class="space-y-2">
@@ -408,9 +382,7 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
     <section id="contact" class="py-20 bg-gradient-to-br from-gray-50 via-white to-teal-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden">
-        <!-- Background decorative elements -->
         <div class="absolute inset-0 opacity-5">
             <div class="absolute top-20 left-10 w-72 h-72 bg-teal-custom rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
             <div class="absolute top-40 right-10 w-72 h-72 bg-coral rounded-full mix-blend-multiply filter blur-xl animate-pulse" style="animation-delay: 2s;"></div>
@@ -418,7 +390,6 @@
         </div>
         
         <div class="max-w-6xl mx-auto px-6 relative z-10">
-            <!-- Section Header -->
             <div class="text-center mb-16">
                 <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-teal-custom to-coral rounded-full mb-8 shadow-lg">
                     <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -429,9 +400,7 @@
                 <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">Ready to work together? Let's start a conversation and bring your ideas to life.</p>
             </div>
             
-            <!-- Contact Cards Grid -->
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-                <!-- Email Card -->
                 <div class="group relative">
                     <div class="absolute inset-0 bg-gradient-to-r from-teal-custom to-blue-500 rounded-3xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
                     <div class="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/20 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
@@ -452,7 +421,6 @@
                     </div>
                 </div>
                 
-                <!-- Phone Card -->
                 <div class="group relative">
                     <div class="absolute inset-0 bg-gradient-to-r from-coral to-pink-500 rounded-3xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
                     <div class="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/20 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
@@ -473,7 +441,6 @@
                     </div>
                 </div>
                 
-                <!-- GitHub Card -->
                 <div class="group relative">
                     <div class="absolute inset-0 bg-gradient-to-r from-yellow-600 to-orange-500 rounded-3xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
                     <div class="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/20 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
@@ -494,7 +461,6 @@
                     </div>
                 </div>
                 
-                <!-- Facebook Card -->
                 <div class="group relative">
                     <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-800 rounded-3xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
                     <div class="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/20 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
@@ -518,7 +484,6 @@
         </div>
     </section>
 
-    <!-- Donate Modal -->
     <div id="donateModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white dark:bg-gray-800 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center bg-gradient-to-r from-purple-600 to-pink-600">
@@ -538,7 +503,6 @@
         </div>
     </div>
 
-    <!-- Project Modals -->
     <div id="projectModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white dark:bg-gray-800 rounded-2xl max-w-6xl w-full max-h-[95vh] overflow-y-auto">
             <div class="p-6 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
@@ -550,24 +514,18 @@
                 </button>
             </div>
             <div id="modalContent" class="p-6">
-                <!-- Content will be dynamically loaded here -->
-                
-                <!-- Docs Section -->
                 <div class="docs-section mt-6">
-                    <!-- Document viewer will be dynamically created here -->
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="bg-charcoal text-white py-8">
         <div class="max-w-7xl mx-auto px-6 text-center">
             <p>&copy; 2024 Truong Khang Dy. Built with passion for technology.</p>
         </div>
     </footer>
 
-    <!-- Scripts -->
     <script src="js/script.js"></script>
     <script src="js/content.js"></script>
     <script src="js/documentViewer.js"></script>

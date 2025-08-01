@@ -1,4 +1,3 @@
-// Theme management
 let isDarkMode = false;
 let cloudInterval;
 let stormInterval;
@@ -25,7 +24,6 @@ function toggleTheme() {
     }
 }
 
-// Light Mode - Clouds with storms (Hero Section only)
 function createCloud() {
     const heroSection = document.getElementById('home');
     if (!heroSection) return;
@@ -40,7 +38,6 @@ function createCloud() {
     
     heroSection.appendChild(cloud);
 
-    // Create rain for storm clouds
     if (isStorm) {
         setTimeout(() => {
             createRain(cloud, heroSection);
@@ -102,7 +99,6 @@ function stopLightModeEffects() {
     document.querySelectorAll('.cloud, .rain-drop').forEach(element => element.remove());
 }
 
-// Dark Mode - Stars, shooting stars, and snow (Hero Section only)
 function createStar() {
     const heroSection = document.getElementById('home');
     if (!heroSection) return;
@@ -147,11 +143,9 @@ function createSnowflake() {
 }
 
 function startDarkModeEffects() {
-    // Create twinkling stars
     if (starInterval) clearInterval(starInterval);
     starInterval = setInterval(createStar, 800);
     
-    // Create falling snow
     if (snowInterval) clearInterval(snowInterval);
     snowInterval = setInterval(createSnowflake, 400);
 }
@@ -169,9 +163,8 @@ function stopDarkModeEffects() {
     document.querySelectorAll('.star, .snowflake').forEach(element => element.remove());
 }
 
-// Initialize effects on page load
 document.addEventListener('DOMContentLoaded', function() {
-    startLightModeEffects(); // Start with light mode effects
+    startLightModeEffects();
 });
 
 function toggleMobileMenu() {
@@ -184,7 +177,6 @@ function handleSubmit(event) {
     alert('Thank you for your message! This is a demo form - in a real website, this would send your message.');
 }
 
-// Project modal functions
 const projectData = {
     project1: {
         title: "Industrial Catering System",
@@ -219,7 +211,6 @@ const projectData = {
 };
 
 function openProjectModal(projectId) {
-    // Use content from JSON if available, otherwise fallback to hardcoded data
     const project = siteContent && siteContent.projectDetails && siteContent.projectDetails[projectId] 
         ? siteContent.projectDetails[projectId] 
         : projectData[projectId];
@@ -230,23 +221,19 @@ function openProjectModal(projectId) {
 
     modalTitle.textContent = project.title;
     
-    // Use real images from JSON if available, otherwise use fallback images
     let images = [];
     if (project.images && project.images.length > 0) {
-        // Use real images from JSON
         images = project.images.map(img => ({
             type: "image",
             url: img.url,
             alt: img.alt
         }));
     } else {
-        // Fallback to gradient backgrounds with icons
         images = [
             { type: "gradient", from: "teal-custom", to: "blue-400", icon: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" },
             { type: "gradient", from: "blue-400", to: "indigo-500", icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" }
         ];
         
-        // Use different images for project2
         if (projectId === 'project2') {
             images[0] = { type: "gradient", from: "coral", to: "pink-400", icon: "M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" };
             images[1] = { type: "gradient", from: "pink-400", to: "rose-500", icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" };
@@ -359,10 +346,8 @@ function openProjectModal(projectId) {
     modal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
     
-    // Add document viewer to the modal
     const docsSection = modalContent.querySelector('.docs-section');
     if (docsSection && project.docsUrl) {
-        // Create document viewer
         const documentViewer = createDocumentViewer(projectId, project.docsUrl, project.docsTitle || 'Project Documentation');
         docsSection.appendChild(documentViewer);
     }
@@ -374,21 +359,18 @@ function closeProjectModal() {
     document.body.style.overflow = 'auto';
 }
 
-// Close modal when clicking outside
 document.getElementById('projectModal').addEventListener('click', function(e) {
     if (e.target === this) {
         closeProjectModal();
     }
 });
 
-// Close modal with Escape key
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
         closeProjectModal();
     }
 });
 
-// Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -399,12 +381,10 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 block: 'start'
             });
         }
-        // Close mobile menu if open
         document.getElementById('mobileMenu').classList.add('hidden');
     });
 });
 
-// Lightbox functionality
 let currentLightboxImages = [];
 let currentLightboxIndex = 0;
 
@@ -412,13 +392,11 @@ function openLightbox(imageUrl, imageAlt, imageIndex, totalImages) {
     currentLightboxImages = [];
     currentLightboxIndex = imageIndex - 1;
     
-    // Get all images from current project
     const project = getCurrentProject();
     if (project && project.images) {
         currentLightboxImages = project.images.filter(img => img.type === "image" || img.url);
     }
     
-    // Create lightbox HTML
     const lightboxHTML = `
         <div class="lightbox" id="lightbox">
             <div class="lightbox-content">
@@ -450,12 +428,10 @@ function openLightbox(imageUrl, imageAlt, imageIndex, totalImages) {
     
     document.body.insertAdjacentHTML('beforeend', lightboxHTML);
     
-    // Show lightbox with animation
     setTimeout(() => {
         document.getElementById('lightbox').classList.add('active');
     }, 10);
     
-    // Add keyboard event listeners
     document.addEventListener('keydown', handleLightboxKeydown);
 }
 
@@ -523,10 +499,9 @@ function getCurrentProject() {
     return null;
 }
 
-// Audio Player Management
 let isAudioPlaying = false;
 let isAudioMuted = false;
-let audioVolume = 0.3; // Default volume at 30%
+let audioVolume = 0.3;
 
 function initAudioPlayer() {
     const audio = document.getElementById('backgroundMusic');
@@ -536,22 +511,18 @@ function initAudioPlayer() {
     
     if (!audio || !muteBtn) return;
     
-    // Set initial volume and ensure audio is loaded
     audio.volume = audioVolume;
-    audio.loop = true; // Enable looping
-    audio.muted = false; // Unmute for autoplay
+    audio.loop = true;
+    audio.muted = false;
     
-    // Try to autoplay immediately when page loads
     const attemptAutoplay = () => {
-        // Ensure audio is loaded before attempting to play
-        if (audio.readyState < 2) { // HAVE_CURRENT_DATA
+        if (audio.readyState < 2) {
             audio.addEventListener('canplaythrough', () => {
                 audio.play().then(() => {
                     isAudioPlaying = true;
                     console.log('Audio autoplay successful');
                 }).catch(error => {
                     console.log('Audio autoplay blocked by browser:', error);
-                    // Fallback: try to play on first user interaction
                     document.addEventListener('click', function startAudioOnInteraction() {
                         if (!isAudioPlaying && audio.paused) {
                             audio.play().then(() => {
@@ -565,13 +536,11 @@ function initAudioPlayer() {
                 });
             }, { once: true });
         } else {
-            // Audio is already loaded, try to play immediately
             audio.play().then(() => {
                 isAudioPlaying = true;
                 console.log('Audio autoplay successful');
             }).catch(error => {
                 console.log('Audio autoplay blocked by browser:', error);
-                // Fallback: try to play on first user interaction
                 document.addEventListener('click', function startAudioOnInteraction() {
                     if (!isAudioPlaying && audio.paused) {
                         audio.play().then(() => {
@@ -593,14 +562,12 @@ function initAudioPlayer() {
         attemptAutoplay();
     }
     
-    // Also try autoplay on window load as a backup
     window.addEventListener('load', () => {
         if (!isAudioPlaying && audio.paused) {
             attemptAutoplay();
         }
     });
     
-    // Toggle mute/unmute
     muteBtn.addEventListener('click', () => {
         if (isAudioMuted) {
             audio.muted = false;
@@ -615,7 +582,6 @@ function initAudioPlayer() {
         }
     });
     
-    // Handle audio events
     audio.addEventListener('play', () => {
         isAudioPlaying = true;
     });
@@ -629,11 +595,9 @@ function initAudioPlayer() {
     });
 }
 
-// Sound Effects System
 let audioContext = null;
-let soundVolume = 0.3; // Volume for sound effects
+let soundVolume = 0.3;
 
-// Initialize Web Audio API
 function initAudioContext() {
     try {
         if (typeof AudioContext !== 'undefined' || typeof webkitAudioContext !== 'undefined') {
@@ -644,7 +608,6 @@ function initAudioContext() {
     }
 }
 
-// Create click sound (800Hz down to 400Hz)
 function playClickSound() {
     if (!audioContext) return;
     
@@ -668,7 +631,6 @@ function playClickSound() {
     }
 }
 
-// Create hover sound (600Hz, 0.05s duration)
 function playHoverSound() {
     if (!audioContext) return;
     
@@ -691,12 +653,11 @@ function playHoverSound() {
     }
 }
 
-// Create success melody (C-E-G notes)
 function playSuccessMelody() {
     if (!audioContext) return;
     
     try {
-        const frequencies = [261.63, 329.63, 392.00]; // C4, E4, G4
+        const frequencies = [261.63, 329.63, 392.00];
         const duration = 0.15;
         
         frequencies.forEach((freq, index) => {
@@ -719,7 +680,6 @@ function playSuccessMelody() {
     }
 }
 
-// Create theme toggle sound
 function playThemeToggleSound() {
     if (!audioContext) return;
     
@@ -744,27 +704,21 @@ function playThemeToggleSound() {
     }
 }
 
-// Add sound effects to all clickable elements
 function addSoundEffects() {
-    // Click sounds for buttons, links, and clickable elements
     const clickableElements = document.querySelectorAll('button, a, [role="button"], .clickable');
     
     clickableElements.forEach(element => {
-        // Click sound
         element.addEventListener('click', (e) => {
-            // Don't play sound for audio controls to avoid conflicts
             if (!element.closest('#audioPlayer')) {
                 playClickSound();
             }
         });
         
-        // Hover sound
         element.addEventListener('mouseenter', () => {
             playHoverSound();
         });
     });
     
-    // Special sound for theme toggle
     const themeToggle = document.querySelector('[data-theme-toggle]');
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
@@ -772,7 +726,6 @@ function addSoundEffects() {
         });
     }
     
-    // Success sound for form submission
     const forms = document.querySelectorAll('form');
     forms.forEach(form => {
         form.addEventListener('submit', () => {
@@ -781,7 +734,6 @@ function addSoundEffects() {
     });
 }
 
-// Initialize audio context and sound effects when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     initAudioPlayer();
     initAudioContext();
@@ -789,7 +741,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initContactCards();
 });
 
-// Donate Modal Functions
 function openDonateModal() {
     const modal = document.getElementById('donateModal');
     const title = document.getElementById('donateModalTitle');
@@ -797,7 +748,6 @@ function openDonateModal() {
     const image = document.getElementById('donateModalImage');
     
     if (modal && title && description && image) {
-        // Get donate content from the loaded site content
         if (window.siteContent && window.siteContent.donate) {
             const donate = window.siteContent.donate;
             title.textContent = donate.title;
@@ -805,7 +755,6 @@ function openDonateModal() {
             image.src = donate.image.url;
             image.alt = donate.image.alt;
         } else {
-            // Fallback content
             title.textContent = 'Support My Work';
             description.textContent = 'If you find my work valuable, consider supporting me!';
             image.src = 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop';
@@ -825,38 +774,31 @@ function closeDonateModal() {
     }
 }
 
-// Contact Cards Click Functionality
 function initContactCards() {
     const contactCards = document.querySelectorAll('#contact .group');
     
     contactCards.forEach(card => {
         card.addEventListener('click', function(e) {
-            // Don't trigger if clicking on the link itself to avoid double navigation
             if (e.target.tagName === 'A' || e.target.closest('a')) {
                 return;
             }
             
-            // Find the link within this card
             const link = card.querySelector('a');
             if (link) {
-                // Play click sound
                 try {
                     playClickSound();
                 } catch (error) {
                     console.log('Click sound failed:', error);
                 }
                 
-                // Navigate to the link
                 window.open(link.href, link.target || '_blank');
             }
         });
         
-        // Add cursor pointer to indicate clickable
         card.style.cursor = 'pointer';
     });
 }
 
-// Close donate modal when clicking outside
 document.addEventListener('DOMContentLoaded', function() {
     const donateModal = document.getElementById('donateModal');
     if (donateModal) {
@@ -868,25 +810,21 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Download Document Function
 function downloadDocument(docUrl) {
     if (!docUrl) {
         console.error('No document URL provided');
         return;
     }
     
-    // Create a temporary link element to trigger download
     const link = document.createElement('a');
     link.href = docUrl;
-    link.download = docUrl.split('/').pop() || 'document.pdf'; // Extract filename from URL
+    link.download = docUrl.split('/').pop() || 'document.pdf';
     link.target = '_blank';
     
-    // Append to body, click, and remove
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     
-    // Play success sound
     try {
         playSuccessMelody();
     } catch (error) {
