@@ -133,7 +133,7 @@ function getFallbackContent() {
             ]
         },
         footer: {
-            copyright: "© 2024 Truong Khang Dy. Built with passion for technology."
+            copyright: "© 2025 Truong Khang Dy. Built with passion for technology."
         },
         donate: {
             title: "Support My Work",
