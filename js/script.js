@@ -831,3 +831,83 @@ function downloadDocument(docUrl) {
         console.log('Success sound failed:', error);
     }
 }
+
+// CV Modal Functions
+function openCvModal() {
+    const modal = document.getElementById('cvModal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        
+        try {
+            playClickSound();
+        } catch (error) {
+            console.log('Click sound failed:', error);
+        }
+    }
+}
+
+function closeCvModal() {
+    const modal = document.getElementById('cvModal');
+    if (modal) {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+        
+        try {
+            playClickSound();
+        } catch (error) {
+            console.log('Click sound failed:', error);
+        }
+    }
+}
+
+function downloadCv() {
+    const cvUrl = 'docs/CV_TRUONGKHANGDY.pdf';
+    const link = document.createElement('a');
+    link.href = cvUrl;
+    link.download = 'CV_TRUONGKHANGDY.pdf';
+    link.target = '_blank';
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    try {
+        playSuccessMelody();
+    } catch (error) {
+        console.log('Success sound failed:', error);
+    }
+}
+
+function openCvInNewTab() {
+    const cvUrl = 'docs/CV_TRUONGKHANGDY.pdf';
+    window.open(cvUrl, '_blank');
+    
+    try {
+        playClickSound();
+    } catch (error) {
+        console.log('Click sound failed:', error);
+    }
+}
+
+// Add event listeners for CV modal
+document.addEventListener('DOMContentLoaded', function() {
+    const cvModal = document.getElementById('cvModal');
+    if (cvModal) {
+        cvModal.addEventListener('click', function(e) {
+            if (e.target === cvModal) {
+                closeCvModal();
+            }
+        });
+    }
+    
+    // Add keyboard event listener for CV modal
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const cvModal = document.getElementById('cvModal');
+            if (cvModal && !cvModal.classList.contains('hidden')) {
+                closeCvModal();
+            }
+        }
+    });
+});

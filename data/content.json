@@ -144,7 +144,12 @@
         "value": "duatrebenho",
         "url": "https://www.facebook.com/duatrebenho"
       }
-    ]
+    ],
+    "cv": {
+      "title": "Download CV",
+      "url": "docs/CV_TRUONGKHANGDY.pdf",
+      "description": "Download my resume"
+    }
   },
   "footer": {
     "copyright": "© 2025 Truong Khang Dy. Built with passion for technology."

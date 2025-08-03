@@ -130,7 +130,12 @@ function getFallbackContent() {
                 { type: "Phone", value: "0865257858" },
                 { type: "GitHub", value: "github.com/KhangDy", url: "https://github.com/KhangDy" },
                 { type: "Facebook", value: "duatrebenho", url: "https://www.facebook.com/duatrebenho" }
-            ]
+            ],
+            cv: {
+                title: "Download CV",
+                url: "docs/CV_TRUONGKHANGDY.pdf",
+                description: "Download my resume"
+            }
         },
         footer: {
             copyright: "© 2025 Truong Khang Dy. Built with passion for technology."
@@ -257,6 +262,13 @@ function updateNavigation() {
             button.onclick = openDonateModal;
         }
     });
+    
+    // Update CV button if contact.cv exists
+    if (siteContent.contact && siteContent.contact.cv) {
+        document.querySelectorAll('button[onclick="openCvModal()"]').forEach(button => {
+            button.title = siteContent.contact.cv.description;
+        });
+    }
     
     const logoContainer = document.querySelector('.w-10.h-10.bg-teal-custom.rounded-lg');
     if (logoContainer && siteContent.hero && siteContent.hero.avatar) {
@@ -417,6 +429,8 @@ function updateContactSection() {
             }
         }
     });
+    
+
 }
 
 // Update footer content

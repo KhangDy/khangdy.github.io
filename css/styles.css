@@ -385,3 +385,110 @@
     background: rgba(31, 41, 55, 0.95);
     border-color: rgba(75, 85, 99, 0.3);
 }
+
+/* CV Modal Styles */
+#cvModal {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+#cvModal .bg-white {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+#cvModal iframe {
+    border-radius: 8px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#cvModal .bg-gradient-to-br {
+    background-size: 200% 200%;
+    animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+#cvModal button {
+    transition: all 0.2s ease;
+}
+
+#cvModal button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+#cvModal .bg-green-600:hover {
+    background-color: #059669;
+}
+
+#cvModal .bg-blue-600:hover {
+    background-color: #2563eb;
+}
+
+/* CV Info Cards Animation */
+#cvModal .flex.items-center.space-x-3 {
+    transition: all 0.3s ease;
+}
+
+#cvModal .flex.items-center.space-x-3:hover {
+    transform: translateX(4px);
+}
+
+#cvModal .w-8.h-8 {
+    transition: all 0.3s ease;
+}
+
+#cvModal .flex.items-center.space-x-3:hover .w-8.h-8 {
+    transform: scale(1.1);
+}
+
+/* Skills Tags Animation */
+#cvModal .flex.flex-wrap.gap-2 span {
+    transition: all 0.2s ease;
+}
+
+#cvModal .flex.flex-wrap.gap-2 span:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design for CV Modal */
+@media (max-width: 1024px) {
+    #cvModal .flex.flex-col.lg\\:flex-row {
+        flex-direction: column;
+    }
+    
+    #cvModal .lg\\:w-2\\/3,
+    #cvModal .lg\\:w-1\\/3 {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    #cvModal .max-w-5xl {
+        max-width: 95vw;
+        margin: 1rem;
+    }
+    
+    #cvModal .p-6 {
+        padding: 1rem;
+    }
+    
+    #cvModal .h-96 {
+        height: 60vh;
+    }
+    
+    #cvModal .text-2xl {
+        font-size: 1.25rem;
+    }
+}
