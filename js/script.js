@@ -911,3 +911,637 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// Contact Form Validation and Handling
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.getElementById('contactForm');
+    const messageTextarea = document.getElementById('message');
+    const charCount = document.getElementById('charCount');
+    
+    if (contactForm) {
+        // Character counter for message
+        messageTextarea.addEventListener('input', function() {
+            const length = this.value.length;
+            charCount.textContent = length;
+            
+            if (length > 900) {
+                charCount.classList.add('text-red-500');
+            } else {
+                charCount.classList.remove('text-red-500');
+            }
+        });
+        
+        // Form validation
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (validateForm()) {
+                submitForm();
+            }
+        });
+        
+        // Real-time validation
+        const inputs = contactForm.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                validateField(this);
+            });
+            
+            input.addEventListener('input', function() {
+                clearFieldError(this);
+            });
+        });
+    }
+});
+
+function validateForm() {
+    const form = document.getElementById('contactForm');
+    const inputs = form.querySelectorAll('input, select, textarea');
+    let isValid = true;
+    
+    inputs.forEach(input => {
+        if (!validateField(input)) {
+            isValid = false;
+        }
+    });
+    
+    return isValid;
+}
+
+function validateField(field) {
+    const value = field.value.trim();
+    const errorElement = field.parentNode.querySelector('.validation-message');
+    
+    // Clear previous error
+    clearFieldError(field);
+    
+    // Required field validation
+    if (field.hasAttribute('required') && !value) {
+        showFieldError(field, 'This field is required');
+        return false;
+    }
+    
+    // Email validation
+    if (field.type === 'email' && value) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+            showFieldError(field, 'Please enter a valid email address');
+            return false;
+        }
+    }
+    
+    // Name validation
+    if (field.id === 'firstName' || field.id === 'lastName') {
+        if (value.length < 2) {
+            showFieldError(field, 'Name must be at least 2 characters long');
+            return false;
+        }
+    }
+    
+    // Message validation
+    if (field.id === 'message') {
+        if (value.length < 10) {
+            showFieldError(field, 'Message must be at least 10 characters long');
+            return false;
+        }
+        if (value.length > 1000) {
+            showFieldError(field, 'Message cannot exceed 1000 characters');
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+function showFieldError(field, message) {
+    const errorElement = field.parentNode.querySelector('.validation-message');
+    if (errorElement) {
+        errorElement.textContent = message;
+        errorElement.classList.remove('hidden');
+        field.classList.add('border-red-500');
+    }
+}
+
+function clearFieldError(field) {
+    const errorElement = field.parentNode.querySelector('.validation-message');
+    if (errorElement) {
+        errorElement.classList.add('hidden');
+        field.classList.remove('border-red-500');
+    }
+}
+
+function submitForm() {
+    const form = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const originalText = submitBtn.innerHTML;
+    
+    // Get form data
+    const formData = {
+        firstName: document.getElementById('firstName').value.trim(),
+        lastName: document.getElementById('lastName').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        subject: document.getElementById('subject').value,
+        message: document.getElementById('message').value.trim()
+    };
+
+    // Show loading state
+    submitBtn.innerHTML = `
+        <svg class="animate-spin w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        Sending...
+    `;
+    submitBtn.disabled = true;
+
+    // Prepare email parameters
+    const templateParams = {
+        to_email: 'khangdy38@gmail.com',
+        from_name: `${formData.firstName} ${formData.lastName}`,
+        from_email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        reply_to: formData.email,
+        timestamp: new Date().toLocaleString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZoneName: 'short'
+        })
+    };
+
+    // Send email to you
+    emailjs.send('service_72v62sb', 'template_abiempv', templateParams)
+        .then(function(response) {
+            console.log('SUCCESS!', response.status, response.text);
+            
+            // Send auto-reply
+            emailjs.send("service_72v62sb", "template_gu3piyx", {
+                to_name: formData.firstName,
+                email: formData.email,
+                from_name: "Khang Dy",
+                from_email: "khangdy38@gmail.com",
+                subject: formData.subject,
+                message: formData.message,
+                timestamp: new Date().toLocaleString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    timeZoneName: 'short'
+                }),
+                name: `${formData.firstName} ${formData.lastName}`
+            })
+                .then(function(autoReplyResponse) {
+                    console.log('Auto-reply sent successfully!');
+                    showSuccessMessage();
+                    resetForm();
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }, function(autoReplyError) {
+                    console.log('Auto-reply failed, but main email sent');
+                    showSuccessMessage();
+                    resetForm();
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                });
+                
+        }, function(error) {
+            console.log('FAILED...', error);
+            showErrorMessage();
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        });
+}
+
+function showSuccessMessage() {
+    const form = document.getElementById('contactForm');
+    const successDiv = document.createElement('div');
+    successDiv.className = 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-6 mb-6';
+    successDiv.innerHTML = `
+        <div class="flex items-center">
+            <svg class="w-6 h-6 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <div>
+                <h4 class="text-lg font-semibold text-green-800 dark:text-green-200">Message Sent Successfully!</h4>
+                <p class="text-green-600 dark:text-green-300">Thank you for your message. I'll get back to you soon!</p>
+            </div>
+        </div>
+    `;
+    
+    form.parentNode.insertBefore(successDiv, form);
+    
+    // Remove success message after 5 seconds
+    setTimeout(() => {
+        successDiv.remove();
+    }, 5000);
+}
+
+function showErrorMessage() {
+    const form = document.getElementById('contactForm');
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-6 mb-6';
+    errorDiv.innerHTML = `
+        <div class="flex items-center">
+            <svg class="w-6 h-6 text-red-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+            <div>
+                <h4 class="text-lg font-semibold text-red-800 dark:text-red-200">Message Failed to Send</h4>
+                <p class="text-red-600 dark:text-red-300">Sorry, there was an error sending your message. Please try again or contact me directly at khangdy38@gmail.com</p>
+            </div>
+        </div>
+    `;
+    
+    form.parentNode.insertBefore(errorDiv, form);
+    
+    // Remove error message after 5 seconds
+    setTimeout(() => {
+        errorDiv.remove();
+    }, 5000);
+}
+
+function resetForm() {
+    const form = document.getElementById('contactForm');
+    form.reset();
+    
+    // Clear all validation messages
+    const errorElements = form.querySelectorAll('.validation-message');
+    errorElements.forEach(element => {
+        element.classList.add('hidden');
+    });
+    
+    // Reset character count
+    document.getElementById('charCount').textContent = '0';
+    
+    // Remove error styling
+    const inputs = form.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+        input.classList.remove('border-red-500');
+    });
+}
+
+// Skills Assessment - Quiz System
+let currentQuestionIndex = 0;
+let score = 0;
+let questions = [
+    {
+        question: "What is the main advantage of using Spring Boot?",
+        options: [
+            "It's free and open source",
+            "Auto-configuration and embedded servers",
+            "Better performance than other frameworks",
+            "More secure than traditional Java EE"
+        ],
+        correct: 1,
+        explanation: "Spring Boot provides auto-configuration and embedded servers, making it easier to create standalone applications."
+    },
+    {
+        question: "Which annotation is used to create a REST controller in Spring Boot?",
+        options: [
+            "@Controller",
+            "@RestController", 
+            "@Service",
+            "@Repository"
+        ],
+        correct: 1,
+        explanation: "@RestController is a convenience annotation that combines @Controller and @ResponseBody."
+    },
+    {
+        question: "What is the purpose of @Autowired annotation?",
+        options: [
+            "To create new objects",
+            "To inject dependencies automatically",
+            "To mark methods as public",
+            "To handle exceptions"
+        ],
+        correct: 1,
+        explanation: "@Autowired is used for dependency injection, allowing Spring to automatically wire beans."
+    },
+    {
+        question: "Which HTTP method is typically used for creating new resources?",
+        options: [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE"
+        ],
+        correct: 1,
+        explanation: "POST is used for creating new resources, while GET is for retrieving, PUT for updating, and DELETE for removing."
+    },
+    {
+        question: "What is JPA in the context of Spring Boot?",
+        options: [
+            "Java Persistence API - a specification for object-relational mapping",
+            "Java Programming Application",
+            "Java Performance Analyzer",
+            "Java Package Architecture"
+        ],
+        correct: 0,
+        explanation: "JPA (Java Persistence API) is a specification for object-relational mapping in Java."
+    }
+];
+
+function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    document.getElementById('quizQuestions').classList.remove('hidden');
+    document.getElementById('quizResults').classList.add('hidden');
+    showQuestion();
+}
+
+function showQuestion() {
+    const question = questions[currentQuestionIndex];
+    document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+    document.getElementById('score').textContent = score;
+    document.getElementById('questionText').textContent = question.question;
+    
+    const optionsContainer = document.getElementById('optionsContainer');
+    optionsContainer.innerHTML = '';
+    
+    question.options.forEach((option, index) => {
+        const button = document.createElement('button');
+        button.className = 'w-full text-left p-4 rounded-lg border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200';
+        button.textContent = option;
+        button.onclick = () => selectAnswer(index);
+        optionsContainer.appendChild(button);
+    });
+}
+
+function selectAnswer(selectedIndex) {
+    const question = questions[currentQuestionIndex];
+    const buttons = document.querySelectorAll('#optionsContainer button');
+    
+    // Disable all buttons
+    buttons.forEach(button => {
+        button.disabled = true;
+        button.classList.remove('hover:bg-gray-50', 'dark:hover:bg-gray-600');
+    });
+    
+    // Show correct/incorrect styling
+    buttons.forEach((button, index) => {
+        if (index === question.correct) {
+            button.classList.add('bg-green-100', 'border-green-500', 'text-green-800');
+        } else if (index === selectedIndex && index !== question.correct) {
+            button.classList.add('bg-red-100', 'border-red-500', 'text-red-800');
+        }
+    });
+    
+    // Update score
+    if (selectedIndex === question.correct) {
+        score++;
+    }
+    
+    // Show explanation
+    setTimeout(() => {
+        showExplanation();
+    }, 1000);
+}
+
+function showExplanation() {
+    const question = questions[currentQuestionIndex];
+    const explanationDiv = document.createElement('div');
+    explanationDiv.className = 'bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-4 mt-4';
+    explanationDiv.innerHTML = `
+        <h5 class="font-semibold text-blue-800 dark:text-blue-200 mb-2">Explanation:</h5>
+        <p class="text-blue-600 dark:text-blue-300">${question.explanation}</p>
+    `;
+    
+    document.getElementById('questionContainer').appendChild(explanationDiv);
+    
+    // Show next button
+    const nextButton = document.createElement('button');
+    nextButton.className = 'mt-4 bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors';
+    nextButton.textContent = currentQuestionIndex < questions.length - 1 ? 'Next Question' : 'Finish Quiz';
+    nextButton.onclick = () => {
+        if (currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            document.getElementById('questionContainer').innerHTML = `
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-sm text-gray-500 dark:text-gray-400">Question <span id="currentQuestion">${currentQuestionIndex + 1}</span> of 5</span>
+                    <span class="text-sm text-gray-500 dark:text-gray-400">Score: <span id="score">${score}</span>/5</span>
+                </div>
+                <h4 id="questionText" class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4"></h4>
+                <div id="optionsContainer" class="space-y-3"></div>
+            `;
+            showQuestion();
+        } else {
+            showQuizResults();
+        }
+    };
+    
+    document.getElementById('questionContainer').appendChild(nextButton);
+}
+
+function showQuizResults() {
+    document.getElementById('quizQuestions').classList.add('hidden');
+    document.getElementById('quizResults').classList.remove('hidden');
+    document.getElementById('finalScore').textContent = `${score}/5`;
+    
+    const scoreMessage = document.getElementById('scoreMessage');
+    if (score === 5) {
+        scoreMessage.innerHTML = '<p class="text-green-600 dark:text-green-400 font-semibold">Perfect! You have excellent Java knowledge! 🎉</p>';
+    } else if (score >= 3) {
+        scoreMessage.innerHTML = '<p class="text-blue-600 dark:text-blue-400 font-semibold">Good job! You have solid Java fundamentals! 👍</p>';
+    } else {
+        scoreMessage.innerHTML = '<p class="text-orange-600 dark:text-orange-400 font-semibold">Keep learning! Practice makes perfect! 📚</p>';
+    }
+}
+
+function restartQuiz() {
+    document.getElementById('quizResults').classList.add('hidden');
+    startQuiz();
+}
+
+// Coding Challenges
+let currentChallengeIndex = 0;
+const challenges = [
+    {
+        title: "Reverse String",
+        description: "Write a method that reverses a given string. The method should return the reversed string.",
+        template: `public String reverseString(String str) {
+    // Your code here
+    return "";
+}`,
+        solution: `public String reverseString(String str) {
+    if (str == null || str.isEmpty()) {
+        return str;
+    }
+    return new StringBuilder(str).reverse().toString();
+}`,
+        testCases: [
+            { input: "hello", expected: "olleh" },
+            { input: "world", expected: "dlrow" },
+            { input: "", expected: "" }
+        ]
+    },
+    {
+        title: "Find Maximum",
+        description: "Write a method that finds the maximum value in an array of integers.",
+        template: `public int findMax(int[] numbers) {
+    // Your code here
+    return 0;
+}`,
+        solution: `public int findMax(int[] numbers) {
+    if (numbers == null || numbers.length == 0) {
+        throw new IllegalArgumentException("Array cannot be null or empty");
+    }
+    int max = numbers[0];
+    for (int i = 1; i < numbers.length; i++) {
+        if (numbers[i] > max) {
+            max = numbers[i];
+        }
+    }
+    return max;
+}`,
+        testCases: [
+            { input: [1, 5, 3, 9, 2], expected: 9 },
+            { input: [-1, -5, -3], expected: -1 },
+            { input: [42], expected: 42 }
+        ]
+    }
+];
+
+function startCodingChallenge() {
+    currentChallengeIndex = 0;
+    document.getElementById('codingChallenge').querySelector('.bg-gradient-to-r').classList.add('hidden');
+    document.getElementById('challengeContainer').classList.remove('hidden');
+    showChallenge();
+}
+
+function showChallenge() {
+    const challenge = challenges[currentChallengeIndex];
+    document.getElementById('challengeTitle').textContent = challenge.title;
+    document.getElementById('challengeDescription').textContent = challenge.description;
+    document.getElementById('codeTemplate').textContent = challenge.template;
+    document.getElementById('userCode').value = challenge.template;
+    document.getElementById('challengeResults').classList.add('hidden');
+}
+
+function testCode() {
+    const userCode = document.getElementById('userCode').value;
+    const challenge = challenges[currentChallengeIndex];
+    
+    // Simple validation (in a real app, you'd use a proper code execution environment)
+    let isValid = true;
+    let feedback = '';
+    
+    // Check if method signature is correct
+    if (!userCode.includes('public') || !userCode.includes('{') || !userCode.includes('}')) {
+        isValid = false;
+        feedback = 'Please ensure your method has the correct signature and structure.';
+    }
+    
+    // Check if return statement exists
+    if (!userCode.includes('return')) {
+        isValid = false;
+        feedback = 'Your method should include a return statement.';
+    }
+    
+    if (isValid) {
+        feedback = 'Code structure looks good! This is a simplified test - in a real environment, your code would be executed with test cases.';
+    }
+    
+    showChallengeResults(isValid, feedback);
+}
+
+function showChallengeResults(isValid, feedback) {
+    document.getElementById('challengeResults').classList.remove('hidden');
+    const resultMessage = document.getElementById('resultMessage');
+    
+    if (isValid) {
+        resultMessage.innerHTML = `
+            <div class="flex items-center text-green-600 dark:text-green-400">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span class="font-semibold">Code validation passed!</span>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300 mt-2">${feedback}</p>
+        `;
+    } else {
+        resultMessage.innerHTML = `
+            <div class="flex items-center text-red-600 dark:text-red-400">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+                <span class="font-semibold">Code validation failed</span>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300 mt-2">${feedback}</p>
+        `;
+    }
+}
+
+function showSolution() {
+    const challenge = challenges[currentChallengeIndex];
+    document.getElementById('userCode').value = challenge.solution;
+    
+    const resultMessage = document.getElementById('resultMessage');
+    resultMessage.innerHTML = `
+        <div class="flex items-center text-blue-600 dark:text-blue-400">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span class="font-semibold">Solution displayed</span>
+        </div>
+        <p class="text-gray-600 dark:text-gray-300 mt-2">This is one possible solution. There might be other valid approaches!</p>
+    `;
+    
+    document.getElementById('challengeResults').classList.remove('hidden');
+}
+
+function nextChallenge() {
+    currentChallengeIndex++;
+    if (currentChallengeIndex >= challenges.length) {
+        // All challenges completed
+        document.getElementById('challengeContainer').innerHTML = `
+            <div class="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800 text-center">
+                <h4 class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4">All Challenges Complete!</h4>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Great job completing all the coding challenges!</p>
+                <button onclick="restartCodingChallenge()" class="bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+                    Start Over
+                </button>
+            </div>
+        `;
+    } else {
+        showChallenge();
+    }
+}
+
+function restartCodingChallenge() {
+    currentChallengeIndex = 0;
+    document.getElementById('challengeContainer').innerHTML = `
+        <div class="bg-gray-50 dark:bg-gray-700 rounded-xl p-6 border border-gray-200 dark:border-gray-600">
+            <h4 id="challengeTitle" class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4"></h4>
+            <p id="challengeDescription" class="text-gray-600 dark:text-gray-300 mb-4"></p>
+            <div class="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm overflow-x-auto">
+                <pre id="codeTemplate"></pre>
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Your Answer:</label>
+                <textarea id="userCode" rows="4" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-teal-custom focus:border-transparent dark:bg-gray-700 dark:text-white font-mono text-sm resize-none" placeholder="Write your code here..."></textarea>
+            </div>
+            <div class="flex space-x-4 mt-4">
+                <button onclick="testCode()" class="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+                    Test Code
+                </button>
+                <button onclick="showSolution()" class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+                    Show Solution
+                </button>
+            </div>
+        </div>
+        
+        <div id="challengeResults" class="hidden bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
+            <h4 class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4">Challenge Results</h4>
+            <div id="resultMessage" class="mb-4"></div>
+            <button onclick="nextChallenge()" class="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+                Next Challenge
+            </button>
+        </div>
+    `;
+    showChallenge();
+}
