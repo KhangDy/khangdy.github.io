@@ -127,7 +127,7 @@ class DocumentViewer {
         if (loading) loading.style.display = 'none';
         if (iframe) iframe.style.display = 'block';
         
-        this.playSoundEffect('docs-open');
+        utils.playSound('docs-open');
     }
 
     onDocumentError(projectId) {
@@ -156,21 +156,7 @@ class DocumentViewer {
 
     // Download and Open Methods
     downloadDocument(docUrl) {
-        try {
-            const link = document.createElement('a');
-            link.href = docUrl;
-            link.download = docUrl.split('/').pop() || 'document.pdf';
-            link.target = '_blank';
-            
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
-            this.playSoundEffect('download-success');
-        } catch (error) {
-            console.error('Download failed:', error);
-            this.showNotification('Download failed. Please try again.', 'error');
-        }
+        utils.downloadFile(docUrl);
     }
 
     openInNewTab(projectId) {
@@ -179,77 +165,11 @@ class DocumentViewer {
 
         try {
             window.open(viewer.data.url, '_blank');
-            this.playSoundEffect('docs-open');
+            utils.playSound('docs-open');
         } catch (error) {
             console.error('Failed to open document:', error);
-            this.showNotification('Failed to open document. Please try again.', 'error');
+            utils.showNotification('Failed to open document. Please try again.', 'error');
         }
-    }
-
-    // Sound Effects
-    playSoundEffect(type) {
-        try {
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-
-            let frequency, duration;
-            switch (type) {
-                case 'docs-open':
-                    frequency = 800;
-                    duration = 0.1;
-                    break;
-                case 'docs-close':
-                    frequency = 600;
-                    duration = 0.1;
-                    break;
-                case 'download-success':
-                    frequency = 1000;
-                    duration = 0.2;
-                    break;
-                default:
-                    frequency = 500;
-                    duration = 0.1;
-            }
-
-            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-            oscillator.frequency.exponentialRampToValueAtTime(frequency * 0.5, audioContext.currentTime + duration);
-
-            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
-
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + duration);
-        } catch (error) {
-            console.log('Sound effect not supported');
-        }
-    }
-
-    // Notification System
-    showNotification(message, type = 'info') {
-        const notification = document.createElement('div');
-        notification.className = `docs-notification docs-notification-${type}`;
-        notification.innerHTML = `
-            <div class="docs-notification-content">
-                <span>${message}</span>
-                <button onclick="this.parentElement.parentElement.remove()" class="docs-notification-close">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-        `;
-
-        document.body.appendChild(notification);
-
-        setTimeout(() => {
-            if (notification.parentElement) {
-                notification.remove();
-            }
-        }, 3000);
     }
 
     // Event Listeners
@@ -449,71 +369,6 @@ class DocumentViewer {
                 .document-viewer-container {
                     height: 400px;
                     min-height: 300px;
-                }
-            }
-
-            /* Notification styles */
-            .docs-notification {
-                position: fixed;
-                top: 24px;
-                right: 24px;
-                z-index: 10000;
-                max-width: 350px;
-                animation: docs-slide-in 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-
-            .docs-notification-content {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 16px 20px;
-                border-radius: 12px;
-                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-                font-size: 14px;
-                font-weight: 500;
-                backdrop-filter: blur(10px);
-            }
-
-            .docs-notification-success {
-                background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-                color: white;
-            }
-
-            .docs-notification-error {
-                background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-                color: white;
-            }
-
-            .docs-notification-info {
-                background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-                color: white;
-            }
-
-            .docs-notification-close {
-                margin-left: 16px;
-                opacity: 0.8;
-                transition: all 0.2s;
-                background: rgba(255, 255, 255, 0.2);
-                border: none;
-                color: inherit;
-                cursor: pointer;
-                padding: 4px;
-                border-radius: 6px;
-            }
-
-            .docs-notification-close:hover {
-                opacity: 1;
-                background: rgba(255, 255, 255, 0.3);
-            }
-
-            @keyframes docs-slide-in {
-                from {
-                    transform: translateX(100%) scale(0.9);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateX(0) scale(1);
-                    opacity: 1;
                 }
             }
 

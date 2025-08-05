@@ -33,7 +33,7 @@ function getFallbackContent() {
             title: "A Java Developer.",
             description: "Passionate about building robust and scalable applications with modern Java technologies. I specialize in Spring Boot, microservices, and full-stack development.",
             avatar: {
-                url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+                url: "img/avata.jpg",
                 alt: "Khang Dy - Java Developer"
             },
             buttons: {
@@ -144,7 +144,7 @@ function getFallbackContent() {
             title: "Support My Work",
             description: "If you find my work valuable, consider supporting me!",
             image: {
-                url: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop",
+                url: "img/donate.jpg",
                 alt: "Thank you for your support!"
             }
         },
@@ -172,11 +172,11 @@ function getFallbackContent() {
                 docsType: "pdf",
                 images: [
                     {
-                        url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop",
+                        url: "img/avata.jpg",
                         alt: "Industrial Catering System - Main Interface"
                     },
                     {
-                        url: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
+                        url: "img/donate.jpg",
                         alt: "Industrial Catering System - Dashboard"
                     }
                 ]
