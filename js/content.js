@@ -295,7 +295,7 @@ function updateHeroSection() {
     const avatarContainer = document.querySelector('#home .relative.z-10');
     if (avatarContainer && hero.avatar) {
         avatarContainer.innerHTML = `
-            <div class="w-80 h-80 mx-auto rounded-full overflow-hidden border-4 border-white dark:border-gray-700 shadow-lg">
+            <div class="w-64 h-64 md:w-80 md:h-80 mx-auto rounded-full overflow-hidden border-4 border-white dark:border-gray-700 shadow-lg">
                 <img src="${hero.avatar.url}" alt="${hero.avatar.alt}" class="w-full h-full object-cover">
             </div>
         `;
