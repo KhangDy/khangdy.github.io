@@ -446,4 +446,4 @@ function updateFooter() {
 // Initialize content loading when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     loadContent();
-});
+});  
