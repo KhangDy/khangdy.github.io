@@ -64,7 +64,7 @@
                 <span class="ml-3 font-semibold text-xl">Khang Dy</span>
             </div>
             
-            <div class="hidden md:flex items-center space-x-6">
+            <div id="desktopNav" class="hidden sm:flex items-center space-x-6">
                 <a href="#home" class="hover:text-teal-custom transition-colors">Home</a>
                 <a href="#projects" class="hover:text-teal-custom transition-colors">Projects</a>
                 <a href="#about" class="hover:text-teal-custom transition-colors">About</a>
@@ -86,14 +86,14 @@
                 </button>
             </div>
             
-            <button class="md:hidden p-2" onclick="toggleMobileMenu()">
+            <button class="sm:hidden p-2" onclick="toggleMobileMenu()">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
             </button>
         </nav>
         
-        <div id="mobileMenu" class="hidden md:hidden bg-off-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800">
+        <div id="mobileMenu" class="hidden sm:hidden bg-off-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800">
             <div class="px-6 py-4 space-y-4">
                 <a href="#home" class="block hover:text-teal-custom transition-colors">Home</a>
                 <a href="#projects" class="block hover:text-teal-custom transition-colors">Projects</a>
@@ -712,16 +712,16 @@
                     <!-- CV Preview -->
                     <div class="lg:w-2/3">
                         <div class="bg-gray-50 dark:bg-gray-900 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
-                            <div class="flex items-center justify-between mb-4">
+                            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
                                 <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">CV Preview</h3>
-                                <div class="flex space-x-2">
-                                    <button onclick="downloadCv()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors inline-flex items-center text-sm">
+                                <div class="flex flex-wrap gap-2 w-full sm:w-auto">
+                                    <button onclick="downloadCv()" class="w-full sm:w-auto bg-green-600 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg hover:bg-green-700 transition-colors inline-flex items-center justify-center text-xs sm:text-sm">
                                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                         </svg>
                                         Download
                                     </button>
-                                    <button onclick="openCvInNewTab()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors inline-flex items-center text-sm">
+                                    <button onclick="openCvInNewTab()" class="w-full sm:w-auto bg-blue-600 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg hover:bg-blue-700 transition-colors inline-flex items-center justify-center text-xs sm:text-sm">
                                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                                         </svg>

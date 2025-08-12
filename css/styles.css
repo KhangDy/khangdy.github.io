@@ -386,6 +386,17 @@
     border-color: rgba(75, 85, 99, 0.3);
 }
 
+/* Fallback: ensure desktop nav shows on ≥640px even if responsive classes fail */
+#desktopNav {
+    display: none;
+}
+
+@media (min-width: 640px) {
+    #desktopNav {
+        display: flex !important;
+    }
+}
+
 /* CV Modal Styles */
 #cvModal {
     backdrop-filter: blur(8px);
