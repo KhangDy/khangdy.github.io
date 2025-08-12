@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Truong Khang Dy - Java Developer</title>
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>K</text></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -50,9 +51,7 @@
             }
         }
     </script>
-    <script src="js/script.js" defer></script>
-    <script src="js/content.js" defer></script>
-    <script src="js/docsViewer.js" defer></script>
+    <!-- Scripts will be loaded at the end of body -->
 </head>
 <body class="font-inter bg-off-white dark:bg-gray-900 text-charcoal dark:text-gray-100 smooth-scroll overflow-x-hidden">
     <header class="sticky top-0 bg-off-white/95 dark:bg-gray-900/95 backdrop-blur-sm z-50 border-b border-gray-100 dark:border-gray-800">
@@ -799,12 +798,12 @@
         </div>
     </footer>
 
+        <!-- Load scripts in correct order -->
         <script src="js/utils.js"></script>
-    <script src="js/script.js"></script>
-    <script src="js/content.js"></script>
-    <script src="js/documentViewer.js"></script>
- 
-    <script src="js/contact.js"></script>
+        <script src="js/script.js"></script>
+        <script src="js/content.js"></script>
+        <script src="js/documentViewer.js"></script>
+        <script src="js/contact.js"></script>
 
 
 </body>
