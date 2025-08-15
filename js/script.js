@@ -631,6 +631,42 @@ function openCvInNewTab() {
     window.open(cvUrl, '_blank');
 }
 
+// Academic Records Modal Functions
+function openAcademicRecords() {
+    utils.openModal('academicRecordsModal');
+}
+
+function closeAcademicRecordsModal() {
+    utils.closeModal('academicRecordsModal');
+}
+
+function downloadAcademicRecordsFile() {
+    utils.downloadFile('docs/Diem.pdf', 'Academic_Records_Diem.pdf');
+}
+
+function openAcademicRecordsInNewTab() {
+    const recordsUrl = 'docs/Diem.pdf';
+    window.open(recordsUrl, '_blank');
+}
+
+// Certificates Modal Functions
+function openCertificates() {
+    utils.openModal('certificatesModal');
+}
+
+function closeCertificatesModal() {
+    utils.closeModal('certificatesModal');
+}
+
+function downloadCertificatesFile() {
+    utils.downloadFile('docs/Diem.pdf', 'Certificates_Diem.pdf');
+}
+
+function openCertificatesInNewTab() {
+    const certificatesUrl = 'docs/Diem.pdf';
+    window.open(certificatesUrl, '_blank');
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     initAudioPlayer();
     initContactCards();

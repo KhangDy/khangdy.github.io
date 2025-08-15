@@ -16,6 +16,11 @@
     scroll-behavior: smooth;
 }
 
+/* Page Loader */
+#page-loader {
+    transition: opacity 0.3s ease-in-out;
+}
+
 /* Hero Section Container for Effects */
 #home {
     position: relative;
